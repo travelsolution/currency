@@ -14,6 +14,6 @@ class CurrencyLatestRates extends CurrencyRates
     public function __construct(?Client $client = null)
     {
         parent::__construct($client);
-        $this->base_url = "https://api.exchangerate.host/latest";
+        $this->base_url = config('services.exchangerate.url_live');
     }
 }

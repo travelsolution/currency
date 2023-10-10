@@ -43,6 +43,8 @@ trait HttpRequest
      */
     protected function request(string $url, array $params = [], string $method = 'GET')
     {
+        $params['access_key'] = config('services.exchangerate.access_key');
+
         try {
             $this->initClient();
 
