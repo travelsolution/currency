@@ -17,7 +17,7 @@ class CurrencyRates extends API
     /**
      * @var null
      */
-    private $symbols = null;
+    private $currencies = null;
 
     /**
      * @var null
@@ -53,8 +53,8 @@ class CurrencyRates extends API
                 $params['places'] = $this->places;
             }
 
-            if ($this->symbols) {
-                $params['symbols'] = implode(',', $this->symbols);
+            if ($this->currencies) {
+                $params['currencies'] = implode(',', $this->currencies);
             }
 
             return $params;
@@ -77,9 +77,9 @@ class CurrencyRates extends API
      *
      * @return $this
      */
-    public function symbols(array $symbols)
+    public function currencies(array $currencies)
     {
-        $this->symbols = $symbols;
+        $this->currencies = $currencies;
         return $this;
     }
 
@@ -101,10 +101,21 @@ class CurrencyRates extends API
      */
     protected function getResults(object $response)
     {
-        if (!empty($rates = (array) $response->rates)) {
-            unset($response->rates);
+        if (!empty($rates = (array) $response->quotes)) {
 
-            return $rates;
+            unset($response->quotes);
+
+            $quotes = [];
+            foreach ($rates as $key => $value) {
+                if (strpos($key, $response->source) !== false) {
+                    $quotes[substr($key, strlen($response->source))] = $value;
+                } else {
+                    $quotes[$key] = $value;
+                }
+            }
+            $quotes[$response->source] = $this->amount;
+
+            return $quotes;
         }
 
         return null;
