@@ -1,5 +1,5 @@
 {
-    "name": "amrshawky/currency",
+    "name": "travelsolution/currency",
     "description": "A PHP library for current and historical currency exchange rates & crypto exchange rates based on the free API provided by exchangerate.host",
     "keywords": [
         "php",
